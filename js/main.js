@@ -33,7 +33,7 @@ const app = {
 
     },
     update: (temp) => {
-        app.smile.update(app.key);
+        app.smile.update(app.key, app.enemys);
                 
     },
     loop: (temp) => {
@@ -48,6 +48,7 @@ const app = {
 
         function savekey(e){
             app.key = e.key;
+            // console.log(app.key);
         }
         function deletekey(e){
             app.key = 0;

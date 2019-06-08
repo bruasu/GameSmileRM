@@ -5,6 +5,7 @@ class Smile{
         this.y = 70;
         this.radius = 30;
         this.speed = 5;
+        this.collision = new Collision();
     }
     draw(ctx){
         //circle
@@ -48,23 +49,27 @@ class Smile{
         ctx.arc(this.x, this.y, this.radius -7, (Math.PI / 180) * 160, (Math.PI / 180) * 380, true);
         ctx.stroke();
         ctx.closePath();
+
+        // this.collision.draw(ctx);
     }
-    update(key){
+    update(key, enemy){
         this.moveing(key);
         this.limits();
+        this.collisionEnemy(enemy);
+        this.collision.update(this.x - this.radius, this.y - this.radius, this.radius *2, this.radius *2);
     }
     moveing(key){
         switch(key){
-            case 'd' || 'D':
+            case "ArrowRight":
                 this.x+=this.speed;
                 break;
-            case 'a' || 'A':
+            case "ArrowLeft":
                 this.x-=this.speed;
                 break;
-            case 'w' || 'W':
+            case "ArrowUp":
                 this.y-=this.speed;
                 break;
-            case 's' || 'S':
+            case "ArrowDown":
                 this.y+=this.speed;
                 break;
         }
@@ -81,6 +86,13 @@ class Smile{
         }
         if(this.y > this.canvas.height - this.radius){
             this.y = this.canvas.height - this.radius;
+        }
+    }
+    collisionEnemy(enemy){
+        if(enemy.length > 0){            
+            for(let i = 0; i < enemy.length; i++){
+                this.collision.cross(enemy[i]);
+            }
         }
     }
 }

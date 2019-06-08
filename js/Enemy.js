@@ -8,7 +8,7 @@ class Enemy{
         this.limitX = null;
         this.limitY = null;
         this.color;
-        this.speed = 2;
+        this.speed = 1.5;
         this.direction = null;
         this.collision = false;
 
