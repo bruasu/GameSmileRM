@@ -1,9 +1,10 @@
 class Collision{
-    constructor(){
+    constructor(name = 'default'){
         this.x;
         this.y;
         this.height;
         this.width;
+        this.name = name;
     }
     draw(ctx){
         ctx.strokeStyle = 'black';
@@ -23,6 +24,7 @@ class Collision{
             this.height + this.y > obj.y
         ){
             console.log('collision');
+            return true;
         }
     }
 }

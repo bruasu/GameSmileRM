@@ -4,6 +4,7 @@ const app = {
     ctx: null,
     smile: null,
     enemys: new Array(),
+    areaEnemy: new Array(),
     key: 0,
     theme: new Audio(),
     load: 0,
@@ -15,6 +16,7 @@ const app = {
         app.canvas.style = "border: 2px solid black; display: flex; margin: auto";
         app.ctx = app.canvas.getContext("2d");
 
+        app.AreaEnemy();
         app.smile = new Smile(app.canvas);
         app.keyboard();
         app.loadAssets();
@@ -29,6 +31,10 @@ const app = {
             /* let msg = 'SOON';
             app.ctx.font='28px arial';
             app.ctx.fillText(msg,200, 100); */
+
+/*             for(let i = 0; i < app.areaEnemy.length; i++){
+                app.areaEnemy[i].draw(ctx);
+            } */
         }
 
     },
@@ -80,16 +86,62 @@ const app = {
     },
     Enemys: () => {
         if(app.enemys.length < 3){
-            app.enemys.push(new Enemy(app.canvas));
+            app.enemys.push(new Enemy(app.canvas, app.areaEnemy));
         }
         if(app.enemys){
             for(let i = 0; i < app.enemys.length; i++){
                 app.enemys[i].draw(app.ctx);
                 app.enemys[i].update();
                 
-                if(app.enemys[i].collision == true){
+                if(app.enemys[i].collisionCanvas == true){
                     app.enemys.splice(i, 1);
                 }
+            }
+        }
+    },
+    AreaEnemy: () => {
+        app.areaEnemy.push(new Collision('top'));
+        app.areaEnemy.push(new Collision('botton'));
+        app.areaEnemy.push(new Collision('left'));
+        app.areaEnemy.push(new Collision('right'));
+        app.areaEnemy.push(new Collision('top-left'));
+        app.areaEnemy.push(new Collision('top-right'));
+        app.areaEnemy.push(new Collision('botton-right'));
+        app.areaEnemy.push(new Collision('botton-left'));
+
+        const width20 = app.canvas.width * (20 / 100);
+        const width60 = app.canvas.width * (60 / 100);
+        const width80 = app.canvas.width * (80 / 100);
+        const height20 = app.canvas.height * (20 / 100)
+        const height30 = app.canvas.height * (30 / 100);
+        const height40 = app.canvas.height * (40 / 100);
+        const height70 = app.canvas.height * (70/ 100);
+        const height80 = app.canvas.height * (80 / 100);
+
+        for(let i = 0; i < app.areaEnemy.length; i++){
+            if(app.areaEnemy[i].name == 'top'){
+                app.areaEnemy[i].update(width20, 0, width60, height20);
+            }
+            else if(app.areaEnemy[i].name == 'botton'){
+                app.areaEnemy[i].update(width20, height80, width60, width20);
+            }
+            else if(app.areaEnemy[i].name == 'left'){
+                app.areaEnemy[i].update(0 , height30, width20, height40);
+            }
+            else if(app.areaEnemy[i].name == 'right'){
+                app.areaEnemy[i].update(width80 , height30, width20, height40);
+            }
+            else if(app.areaEnemy[i].name == 'top-left'){
+                app.areaEnemy[i].update(0 , 0, width20, height30);
+            }
+            else if(app.areaEnemy[i].name == 'top-right'){
+                app.areaEnemy[i].update(width80, 0, width20, height30);
+            }
+            else if(app.areaEnemy[i].name == 'botton-right'){
+                app.areaEnemy[i].update(width80, height70, width20, height30);
+            }
+            else if(app.areaEnemy[i].name == 'botton-left'){
+                app.areaEnemy[i].update(0, height70, width20, height30);
             }
         }
     }
