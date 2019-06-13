@@ -6,6 +6,7 @@ class Smile{
         this.radius = 30;
         this.speed = 5;
         this.collision = new Collision();
+        this.score = 0;
     }
     draw(ctx){
         //circle
@@ -50,13 +51,21 @@ class Smile{
         ctx.stroke();
         ctx.closePath();
 
+        //score
+        ctx.font = "30px Arial";
+        let textScore = "Puntos: "+this.score;
+        let sizeTextScore = ctx.measureText(textScore).width;
+        let positionXScore = (this.canvas.width / 2) - (sizeTextScore / 2);
+        ctx.fillText(textScore, positionXScore, this.canvas.height - 30);
+
         // this.collision.draw(ctx);
     }
-    update(key, enemy){
+    update(key, enemy, fruit){
         this.moveing(key);
         this.limits();
         this.collisionEnemy(enemy);
         this.collision.update(this.x - this.radius, this.y - this.radius, this.radius *2, this.radius *2);
+        this.collisionFruit(fruit);
     }
     moveing(key){
         switch(key){
@@ -91,7 +100,20 @@ class Smile{
     collisionEnemy(enemy){
         if(enemy.length > 0){            
             for(let i = 0; i < enemy.length; i++){
-                this.collision.cross(enemy[i]);
+
+                if(this.collision.cross(enemy[i])){
+                 console.log('collision Enemy');
+                }
+            }
+        }
+    }
+    collisionFruit(fruit){
+        if(fruit){
+            if(this.collision.cross(fruit)){
+                this.score++;
+                fruit.play();
+                fruit.generatePosition();
+                
             }
         }
     }

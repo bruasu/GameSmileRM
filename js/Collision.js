@@ -23,7 +23,7 @@ class Collision{
             this.x + this.width > obj.x &&
             this.height + this.y > obj.y
         ){
-            console.log('collision');
+            // console.log('collision');
             return true;
         }
     }

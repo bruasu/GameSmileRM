@@ -5,10 +5,12 @@ const app = {
     smile: null,
     enemys: new Array(),
     areaEnemy: new Array(),
+    fruit: null,
     key: 0,
     theme: new Audio(),
+    jump: new Audio(),
     load: 0,
-    totalLoad: 1,
+    totalLoad: 2,
     printLoad: false,
     referenceTemp: 0,
     start: () => {
@@ -18,16 +20,22 @@ const app = {
 
         app.AreaEnemy();
         app.smile = new Smile(app.canvas);
+        app.fruit = new Fruit(app.canvas, app.jump);
         app.keyboard();
         app.loadAssets();
-
+        
+        
         app.loop();
     },
     draw: (ctx) => {
-        
+        if(!app.printLoad){
+            app.TitleInit(ctx);
+        }
+
         if(app.printLoad){
             app.smile.draw(ctx);
             app.Enemys();
+            app.fruit.draw(app.ctx);
             /* let msg = 'SOON';
             app.ctx.font='28px arial';
             app.ctx.fillText(msg,200, 100); */
@@ -39,7 +47,9 @@ const app = {
 
     },
     update: (temp) => {
-        app.smile.update(app.key, app.enemys);
+        if(app.printLoad){
+            app.smile.update(app.key, app.enemys, app.fruit);
+        }
                 
     },
     loop: (temp) => {
@@ -67,6 +77,12 @@ const app = {
             app.theme.volume = 0.4;
             app.theme.loop = true;
             // console.log('LOAD: '+ app.theme.src);   
+        };
+        app.jump.src = "sounds/jump.mp3";
+        app.jump.oncanplaythrough = () => {
+            app.load++;
+            app.theme.volume = 0.5;
+            app.theme.loop = true;
         };
 
         let loop = setInterval(isLoaded, 1000);
@@ -144,6 +160,12 @@ const app = {
                 app.areaEnemy[i].update(0, height70, width20, height30);
             }
         }
+    },
+    TitleInit(ctx){
+        ctx.font = "25px Arial";
+        let text = "haga clic en la pantalla para Iniciar el Juego";
+        let sizetext = ctx.measureText(text).width;
+        ctx.fillText(text, (app.canvas.width / 2) - (sizetext / 2) , 100);
     }
 
    
