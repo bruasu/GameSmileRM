@@ -11,7 +11,7 @@ const app = {
     jump: new Audio(),
     load: 0,
     totalLoad: 2,
-    printLoad: false,
+    printLoad: 'init',
     referenceTemp: 0,
     start: () => {
         app.canvas = document.getElementById('canvas');
@@ -28,11 +28,11 @@ const app = {
         app.loop();
     },
     draw: (ctx) => {
-        if(!app.printLoad){
+        if(app.printLoad == 'init'){
             app.TitleInit(ctx);
         }
 
-        if(app.printLoad){
+        if(app.printLoad == 'start'){
             app.smile.draw(ctx);
             app.Enemys();
             app.fruit.draw(app.ctx);
@@ -44,11 +44,17 @@ const app = {
                 app.areaEnemy[i].draw(ctx);
             } */
         }
+        if(app.printLoad == 'gameOver'){
+            app.gameOver(ctx);
+        }
 
     },
     update: (temp) => {
-        if(app.printLoad){
+        if(app.printLoad == 'start'){
             app.smile.update(app.key, app.enemys, app.fruit);
+        }
+        if(app.smile.gameOver){
+            app.printLoad = 'gameOver';
         }
                 
     },
@@ -93,7 +99,7 @@ const app = {
                 
                 app.canvas.addEventListener('click',function(){
                     app.theme.play();
-                    app.printLoad = true;
+                    app.printLoad = 'start';
                 });
 
                 clearInterval(loop);
@@ -161,11 +167,21 @@ const app = {
             }
         }
     },
-    TitleInit(ctx){
+    TitleInit: (ctx) => {
         ctx.font = "25px Arial";
         let text = "haga clic en la pantalla para Iniciar el Juego";
         let sizetext = ctx.measureText(text).width;
         ctx.fillText(text, (app.canvas.width / 2) - (sizetext / 2) , 100);
+    },
+    gameOver: (ctx) => {
+        ctx.font = "25px Arial";
+        let text1 = "Game Over";
+        let sizetext1 = ctx.measureText(text1).width;
+        ctx.fillText(text1, (app.canvas.width / 2) - (sizetext1 / 2) , 100);
+
+        let text2 = "Puntos: "+app.smile.score;
+        let sizetext2 = ctx.measureText(text2).width;
+        ctx.fillText(text2, (app.canvas.width / 2) - (sizetext2 / 2) , 150);
     }
 
    

@@ -7,6 +7,7 @@ class Smile{
         this.speed = 5;
         this.collision = new Collision();
         this.score = 0;
+        this.gameOver = false;
     }
     draw(ctx){
         //circle
@@ -103,6 +104,7 @@ class Smile{
 
                 if(this.collision.cross(enemy[i])){
                  console.log('collision Enemy');
+                 this.gameOver = true;
                 }
             }
         }
