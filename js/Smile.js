@@ -112,7 +112,7 @@ class Smile{
     collisionFruit(fruit){
         if(fruit){
             if(this.collision.cross(fruit)){
-                this.score++;
+                this.score += fruit.points;
                 fruit.play();
                 fruit.generatePosition();
                 

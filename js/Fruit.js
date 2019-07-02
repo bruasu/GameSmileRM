@@ -7,6 +7,7 @@ class Fruit{
         this.width;
         this.height;
         this.collision;
+        this.points = 1;
 
         this.img = new Image();
         
@@ -36,16 +37,19 @@ class Fruit{
                 this.img.src = 'img/sindria.png';
                 this.width = 58;
                 this.height = 50;
+                this.points = 1;
                 break;
             case 2:
                 this.img.src = 'img/apple.png';
                 this.width = 50;
                 this.height = 55;
+                this.points = 1.5;
                 break;
             case 3:
                 this.img.src = 'img/pear.png';
                 this.width = 50;
                 this.height = 50;
+                this.points = 2;
                 break;
         }
     }
